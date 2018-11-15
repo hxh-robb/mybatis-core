@@ -122,12 +122,25 @@
     <system>Travis CI</system>
     <url>https://travis-ci.org/mybatis/mybatis-3/</url>
   </ciManagement>
+
   <distributionManagement>
+    <!--
     <site>
       <id>gh-pages</id>
       <name>Mybatis GitHub Pages</name>
       <url>git:ssh://git@github.com/mybatis/mybatis-3.git?gh-pages#</url>
     </site>
+    -->
+    <snapshotRepository>
+      <id>internal.repo.snapshots</id>
+      <name>Temporary Staging Repository(Snapshots)</name>
+      <url>file://${user.dir}/target/mvn-repo/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>internal.repo.releases</id>
+      <name>Temporary Staging Repository(Releases)</name>
+      <url>file://${user.dir}/target/mvn-repo/releases</url>
+    </repository>
   </distributionManagement>
 
   <properties>
@@ -263,6 +276,19 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <!-- <altDeploymentRepository>internal.repo::default::file://${user.dir}/target/mvn-repo/releases</altDeploymentRepository> -->
+            <altDeploymentRepository>internal.repo.snapshots::default::file://${user.dir}/target/mvn-repo/snapshots</altDeploymentRepository>
+          </configuration>
+          <version>3.0.0-M1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -372,11 +398,18 @@
 
   <repositories>
     <!-- Adding for mybatis-parent 31-SNAPSHOT -->
+    <!--
     <repository>
       <id>sonatype-oss-snapshots</id>
       <name>Sonatype OSS Snapshots Repository</name>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
+    -->
+    <repository>
+        <id>robb-mvn-repo</id>
+        <url>https://rawgit.com/hxh-robb/mvn-repo/master/snapshots</url>
+    </repository>
+
   </repositories>
 
 </project>
