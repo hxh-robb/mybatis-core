@@ -406,8 +406,11 @@
     </repository>
     -->
     <repository>
-        <id>robb-mvn-repo</id>
-        <url>https://rawgit.com/hxh-robb/mvn-repo/master/snapshots</url>
+      <id>robb-mvn-repo</id>
+      <url>https://rawgit.com/hxh-robb/mvn-repo/master/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
 
   </repositories>
