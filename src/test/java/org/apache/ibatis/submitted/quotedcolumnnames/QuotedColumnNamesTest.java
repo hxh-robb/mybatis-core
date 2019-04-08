@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,15 +24,15 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class QuotedColumnNamesTest {
 
   protected static SqlSessionFactory sqlSessionFactory;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() throws Exception {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/quotedcolumnnames/MapperConfig.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
@@ -63,16 +63,16 @@ public class QuotedColumnNamesTest {
   private void assertColumnNames(List<Map<String, Object>> list) {
     Map<String, Object> record = list.get(0);
 
-    Assert.assertTrue(record.containsKey("firstName"));
-    Assert.assertTrue(record.containsKey("lastName"));
+    Assertions.assertTrue(record.containsKey("firstName"));
+    Assertions.assertTrue(record.containsKey("lastName"));
 
-    Assert.assertFalse(record.containsKey("FIRST_NAME"));
-    Assert.assertFalse(record.containsKey("LAST_NAME"));
+    Assertions.assertFalse(record.containsKey("FIRST_NAME"));
+    Assertions.assertFalse(record.containsKey("LAST_NAME"));
   }
 
   private void printList(List<Map<String, Object>> list) {
     for (Map<String, Object> map : list) {
-      Assert.assertNotNull(map);
+      Assertions.assertNotNull(map);
     }
   }
 }

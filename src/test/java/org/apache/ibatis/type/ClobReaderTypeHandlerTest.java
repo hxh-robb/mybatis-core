@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -25,16 +25,16 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import javax.sql.DataSource;
 import java.io.*;
 import java.sql.Clob;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -54,7 +54,7 @@ public class ClobReaderTypeHandlerTest extends BaseTypeHandlerTest {
   @Mock
   protected Clob clob;
 
-  @BeforeClass
+  @BeforeAll
   public static void setupSqlSessionFactory() throws Exception {
     DataSource dataSource = BaseDataTest.createUnpooledDataSource("org/apache/ibatis/type/jdbc.properties");
     TransactionFactory transactionFactory = new JdbcTransactionFactory();
@@ -120,7 +120,6 @@ public class ClobReaderTypeHandlerTest extends BaseTypeHandlerTest {
     when(cs.getClob(1)).thenReturn(null);
     assertNull(TYPE_HANDLER.getResult(cs, 1));
   }
-
 
   @Test
   public void integrationTest() throws IOException {

@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,16 +16,16 @@
 package org.apache.ibatis.submitted.primitive_result_type;
 
 import org.apache.ibatis.BaseDataTest;
-import static org.junit.Assert.assertTrue;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class PrimitiveResultTypeTest {
 
-  @BeforeClass
+  @BeforeAll
   public static void setup() throws Exception {
     BaseDataTest.runScript(IbatisConfig.getSqlSessionFactory().getConfiguration().getEnvironment().getDataSource(),
             "org/apache/ibatis/submitted/primitive_result_type/create.sql");
@@ -49,6 +49,6 @@ public class PrimitiveResultTypeTest {
   @Test
   public void noErrorThrowOut(){
       List<Product> products=ProductDAO.selectAllProducts();
-      assertTrue("should return 4 results", 4==products.size());
+      assertTrue(4==products.size(), "should return 4 results");
   }
 }

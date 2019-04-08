@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.apache.ibatis.submitted.refcursor;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -34,12 +34,11 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.test.EmbeddedPostgresqlTests;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 import ru.yandex.qatools.embed.postgresql.util.SocketUtil;
@@ -47,14 +46,14 @@ import ru.yandex.qatools.embed.postgresql.util.SocketUtil;
 /**
  * @author Jeff Butler
  */
-@Category(EmbeddedPostgresqlTests.class)
+@Tag("EmbeddedPostgresqlTests")
 public class RefCursorTest {
 
   private static final EmbeddedPostgres postgres = new EmbeddedPostgres();
 
   private static SqlSessionFactory sqlSessionFactory;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() throws Exception {
     // Launch PostgreSQL server. Download / unarchive if necessary.
     String url = postgres.start(EmbeddedPostgres.cachedRuntimeConfig(Paths.get(System.getProperty("java.io.tmpdir"), "pgembed")), "localhost", SocketUtil.findFreePort(), "refcursor", "postgres", "root", Collections.emptyList());
@@ -70,7 +69,7 @@ public class RefCursorTest {
         "org/apache/ibatis/submitted/refcursor/CreateDB.sql");
   }
 
-  @AfterClass
+  @AfterAll
   public static void tearDown() {
     postgres.stop();
   }
@@ -79,7 +78,7 @@ public class RefCursorTest {
   public void testRefCursor1() throws IOException {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       OrdersMapper mapper = sqlSession.getMapper(OrdersMapper.class);
-      Map<String, Object> parameter = new HashMap<String, Object>();
+      Map<String, Object> parameter = new HashMap<>();
       parameter.put("orderId", 1);
       mapper.getOrder1(parameter);
 
@@ -96,7 +95,7 @@ public class RefCursorTest {
   public void testRefCursor2() throws IOException {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       OrdersMapper mapper = sqlSession.getMapper(OrdersMapper.class);
-      Map<String, Object> parameter = new HashMap<String, Object>();
+      Map<String, Object> parameter = new HashMap<>();
       parameter.put("orderId", 1);
       mapper.getOrder2(parameter);
 
@@ -112,7 +111,7 @@ public class RefCursorTest {
   @Test
   public void shouldUseResultHandlerOnOutputParam() throws IOException {
     class OrderResultHandler implements ResultHandler<Order> {
-      private List<Order> orders = new ArrayList<Order>();
+      private List<Order> orders = new ArrayList<>();
 
       @Override
       public void handleResult(ResultContext<? extends Order> resultContext) {
@@ -129,7 +128,7 @@ public class RefCursorTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       OrdersMapper mapper = sqlSession.getMapper(OrdersMapper.class);
       OrderResultHandler handler = new OrderResultHandler();
-      Map<String, Object> parameter = new HashMap<String, Object>();
+      Map<String, Object> parameter = new HashMap<>();
       parameter.put("orderId", 1);
       mapper.getOrder3(parameter, handler);
 
@@ -143,7 +142,7 @@ public class RefCursorTest {
   public void shouldNullResultSetNotCauseNpe() throws IOException {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       OrdersMapper mapper = sqlSession.getMapper(OrdersMapper.class);
-      Map<String, Object> parameter = new HashMap<String, Object>();
+      Map<String, Object> parameter = new HashMap<>();
       parameter.put("orderId", 99);
       mapper.getOrder3(parameter, new ResultHandler<Order>() {
         @Override

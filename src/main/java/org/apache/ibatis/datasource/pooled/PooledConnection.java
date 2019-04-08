@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -235,18 +235,18 @@ class PooledConnection implements InvocationHandler {
     if (CLOSE.hashCode() == methodName.hashCode() && CLOSE.equals(methodName)) {
       dataSource.pushConnection(this);
       return null;
-    } else {
-      try {
-        if (!Object.class.equals(method.getDeclaringClass())) {
-          // issue #579 toString() should never fail
-          // throw an SQLException instead of a Runtime
-          checkConnection();
-        }
-        return method.invoke(realConnection, args);
-      } catch (Throwable t) {
-        throw ExceptionUtil.unwrapThrowable(t);
-      }
     }
+    try {
+      if (!Object.class.equals(method.getDeclaringClass())) {
+        // issue #579 toString() should never fail
+        // throw an SQLException instead of a Runtime
+        checkConnection();
+      }
+      return method.invoke(realConnection, args);
+    } catch (Throwable t) {
+      throw ExceptionUtil.unwrapThrowable(t);
+    }
+
   }
 
   private void checkConnection() throws SQLException {

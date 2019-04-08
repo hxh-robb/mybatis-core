@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,20 +20,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.BaseDataTest;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class AssociationTypeTest {
 
   private static SqlSessionFactory sqlSessionFactory;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() throws Exception {
     // create a SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/associationtype/mybatis-config.xml")) {
@@ -50,8 +50,8 @@ public class AssociationTypeTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       List<Map> results = sqlSession.selectList("getUser");
       for (Map r : results) {
-          Assert.assertEquals(String.class, r.get("a1").getClass());
-          Assert.assertEquals(String.class, r.get("a2").getClass());
+        Assertions.assertEquals(String.class, r.get("a1").getClass());
+        Assertions.assertEquals(String.class, r.get("a2").getClass());
       }
     }
   }

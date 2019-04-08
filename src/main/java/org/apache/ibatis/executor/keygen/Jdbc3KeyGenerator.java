@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
 
   /**
    * A shared instance.
-   * 
+   *
    * @since 3.4.3
    */
   public static final Jdbc3KeyGenerator INSTANCE = new Jdbc3KeyGenerator();
@@ -63,9 +63,7 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
     if (keyProperties == null || keyProperties.length == 0) {
       return;
     }
-    ResultSet rs = null;
-    try {
-      rs = stmt.getGeneratedKeys();
+    try (ResultSet rs = stmt.getGeneratedKeys()) {
       final Configuration configuration = ms.getConfiguration();
       if (rs.getMetaData().getColumnCount() >= keyProperties.length) {
         Object soleParam = getSoleParameter(parameter);
@@ -77,14 +75,6 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
       }
     } catch (Exception e) {
       throw new ExecutorException("Error getting generated key or setting result to parameter object. Cause: " + e, e);
-    } finally {
-      if (rs != null) {
-        try {
-          rs.close();
-        } catch (Exception e) {
-          // ignore
-        }
-      }
     }
   }
 

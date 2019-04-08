@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -72,14 +72,14 @@ public class SimpleStatementHandler extends BaseStatementHandler {
   public <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException {
     String sql = boundSql.getSql();
     statement.execute(sql);
-    return resultSetHandler.<E>handleResultSets(statement);
+    return resultSetHandler.handleResultSets(statement);
   }
 
   @Override
   public <E> Cursor<E> queryCursor(Statement statement) throws SQLException {
     String sql = boundSql.getSql();
     statement.execute(sql);
-    return resultSetHandler.<E>handleCursorResultSets(statement);
+    return resultSetHandler.handleCursorResultSets(statement);
   }
 
   @Override
@@ -92,7 +92,7 @@ public class SimpleStatementHandler extends BaseStatementHandler {
   }
 
   @Override
-  public void parameterize(Statement statement) throws SQLException {
+  public void parameterize(Statement statement) {
     // N/A
   }
 

@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ public class CallableStatementHandler extends BaseStatementHandler {
   public <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException {
     CallableStatement cs = (CallableStatement) statement;
     cs.execute();
-    List<E> resultList = resultSetHandler.<E>handleResultSets(cs);
+    List<E> resultList = resultSetHandler.handleResultSets(cs);
     resultSetHandler.handleOutputParameters(cs);
     return resultList;
   }
@@ -75,7 +75,7 @@ public class CallableStatementHandler extends BaseStatementHandler {
   public <E> Cursor<E> queryCursor(Statement statement) throws SQLException {
     CallableStatement cs = (CallableStatement) statement;
     cs.execute();
-    Cursor<E> resultList = resultSetHandler.<E>handleCursorResultSets(cs);
+    Cursor<E> resultList = resultSetHandler.handleCursorResultSets(cs);
     resultSetHandler.handleOutputParameters(cs);
     return resultList;
   }

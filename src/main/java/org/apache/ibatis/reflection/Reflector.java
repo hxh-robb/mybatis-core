@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -229,7 +229,7 @@ public class Reflector {
         result = Array.newInstance((Class<?>) componentType, 0).getClass();
       } else {
         Class<?> componentClass = typeToClass(componentType);
-        result = Array.newInstance((Class<?>) componentClass, 0).getClass();
+        result = Array.newInstance(componentClass, 0).getClass();
       }
     }
     if (result == null) {
